@@ -11,7 +11,7 @@ const TeamState = (props) => {
         team: null,
         teams: [],
         error: null,
-        loading: false
+        loadingTeam: false
     }
 
     const [state, dispatch] = useReducer(teamReducer, initialState)
@@ -22,13 +22,19 @@ const TeamState = (props) => {
             const t = await db.collection('teams').where('name', '==', team.name).get();
             if (t.size > 0) {
                 dispatch({ type: TEAM_ERROR, payload: 'name already exist' })
+
+                return;
+            } else if (t.size === 1) {
+                dispatch({ type: TEAM_ERROR, payload: 'You already have a Team' })
+
                 return;
             }
 
-            const teamAdded = await db.collection('teams').add({ name: team.name, userId: team.userId, players: [] })
-            const data = await db.collection('teams').doc(result.id).get()
+            const teamAdded = await db.collection('teams').add({ name: team.name, userId: team.userId, players: [], imageUrl: null })
+            const data = await db.collection('teams').doc(teamAdded.id).get()
             dispatch({ type: ADD_TEAM, payload: { id: data.id, ...data.data() } })
-            return teamAdded.id
+
+            return data.id
         } catch (error) {
             dispatch({ type: TEAM_ERROR, payload: error.message })
         }
@@ -37,20 +43,24 @@ const TeamState = (props) => {
 
     const getTeamByUserId = async userId => {
         try {
-            dispatch({ type: LOADING_TEAM })
+            setLoading()
 
-            const result = await db.collection('teams').where('userId', '==', userId).get()
-            const teamData = []
-            if (result.size > 0) {
-                result.forEach(doc => {
-                    if (doc.exists) {
-                        teamData.push({ id: doc.id, ...doc.data() })
+            const teamSub = await db.collection('teams').where('userId', '==', userId).onSnapshot(snap => {
+                let teamData = null
+                snap.forEach(team => {
+                    if (team.exists) {
+                        teamData = { id: team.id, ...team.data() }
                     }
                 })
+                console.log('DATA', teamData)
+                dispatch({ type: GET_TEAM, payload: teamData })
             }
-            dispatch({ type: GET_TEAM, payload: teamData[0] })
+            )
+
+
+            return teamSub;
         } catch (error) {
-            console.log(error)
+            console.log('Error getting team by userID', error)
             dispatch({ type: TEAM_ERROR, payload: error.message })
         }
     }
@@ -82,7 +92,7 @@ const TeamState = (props) => {
 
     const addPlayerToTeamPlayers = async player => {
         try {
-            console.log('PL', player)
+
             const team = (await db.collection('teams').doc(player.teamId).get()).data()
             await db.collection('teams').doc(player.teamId).update({ players: [...team.players, player] })
         } catch (error) {
@@ -92,7 +102,7 @@ const TeamState = (props) => {
 
     const getTeamById = async teamId => {
         try {
-            dispatch({ type: LOADING_TEAM })
+            setLoading()
 
             const result = await db.collection('teams').doc(teamId).get()
             dispatch({ type: GET_TEAM, payload: { id: result.id, ...result.data() } })
@@ -100,6 +110,10 @@ const TeamState = (props) => {
             console.log(error)
             dispatch({ type: TEAM_ERROR, payload: error.message })
         }
+    }
+
+    const clearError = () => {
+        dispatch({ type: "CLEAR_ERROR" })
     }
 
     const setLoading = () => dispatch({ type: LOADING_TEAM })
@@ -111,12 +125,13 @@ const TeamState = (props) => {
         team: state.team,
         teams: state.teams,
         error: state.error,
-        loading: state.loading,
+        loadingTeam: state.loadingTeam,
         addTeam,
         getTeamByUserId,
         getTeamById,
         getTeams,
         addPlayerToTeamPlayers,
+        clearError,
 
     }}>
         {props.children}

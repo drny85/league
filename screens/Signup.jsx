@@ -67,7 +67,7 @@ const Signup = ({ navigation }) => {
                     validationSchema={signinSchema}
                 >
                     <AppFormField autoFocus={true} placeholder='Full Name' name='fullName' autoCapitalize='words' textContentType='name' />
-                    <AppFormField placeholder='Phone Number' name='phone' keyboardType='numeric' />
+                    <AppFormField placeholder='Phone Number' name='phone' maxLength={10} keyboardType='numeric' />
                     <AppFormField
 
                         placeholder="Email"

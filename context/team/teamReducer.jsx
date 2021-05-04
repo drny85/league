@@ -7,13 +7,13 @@ export default (state, { type, payload }) => {
             return {
                 ...state,
                 team: payload,
-                loading: false,
+                loadingTeam: false,
             };
         case GET_TEAMS:
             return {
                 ...state,
                 teams: payload,
-                loading: false,
+                loadingTeam: false,
                 error: null,
             };
 
@@ -21,14 +21,21 @@ export default (state, { type, payload }) => {
             return {
                 ...state,
                 error: payload,
-                loading: false,
+                loadingTeam: false,
             };
 
         case LOADING_TEAM:
             return {
                 ...state,
-                loading: true,
+                loadingTeam: true,
             };
+
+        case 'CLEAR_ERROR':
+            return {
+                ...state,
+                error: null,
+                loadingTeam: false
+            }
 
         default:
             return state;

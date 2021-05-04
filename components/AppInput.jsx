@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../config/constants";
 
 
-const AppInput = ({ iconName, e = null, focus = false, style, ...otherProps }) => {
+const AppInput = ({ iconName, e = null, focus = false, onTouchStart, style, ...otherProps }) => {
     const inputRef = useRef()
     return (
         <TouchableWithoutFeedback onPress={() => inputRef.current.focus()}>
@@ -20,6 +20,7 @@ const AppInput = ({ iconName, e = null, focus = false, style, ...otherProps }) =
                 <TextInput
                     ref={inputRef}
                     autoFocus={focus}
+                    onTouchStart={onTouchStart}
                     autoCapitalize={e}
                     placeholderTextColor={COLORS.lightGray}
                     style={[styles.input, style]}

@@ -20,6 +20,13 @@ const PlayerState = (props) => {
 
     const addPlayer = async playerData => {
         try {
+            const { teamId, fullName } = playerData
+            const found = await db.collection('players').where('fullName', '==', fullName).where('teamId', '==', teamId).get()
+            if (found.size > 0) {
+                dispatch({ type: PLAYER_ERROR, payload: 'Player already added in team' })
+
+                return
+            }
             const result = await db.collection('players').add(playerData)
             const data = await db.collection('players').doc(result.id).get()
             dispatch({ type: ADD_PLAYER, payload: { id: data.id, ...data.data() } })
@@ -32,7 +39,7 @@ const PlayerState = (props) => {
     const getPlayersByTeamId = async teamId => {
         try {
             setLoading()
-            console.log(teamId)
+
             const result = await db.collection('players').where('teamId', '==', teamId).onSnapshot(
                 players => {
                     const playersData = []

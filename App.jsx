@@ -28,7 +28,7 @@ const App = () => {
 	const { getCurrentUser, authUnsubcribe } = useContext(authContext);
 
 	if (!isReady) {
-		getCurrentUser();
+		getCurrentUser()
 		return (
 			<AppLoading
 				startAsync={loadFonts}

@@ -11,11 +11,11 @@ enableScreens()
 const Stack = createSharedElementStackNavigator()
 
 const HomeNavigation = () => {
-    return <Stack.Navigator mode='modal' screenOptions={{ headerShown: null }}>
-        <Stack.Screen name='Home' component={Home} />
+    return <Stack.Navigator mode='modal'>
+        <Stack.Screen name='Home' component={Home} options={{ title: "Teams" }} />
         <Stack.Screen
-            name='TeamDetails' component={TeamDetails} />
-        <Stack.Screen name='PlayerDetails' component={PlayerDetails} />
+            name='TeamDetails' component={TeamDetails} options={{ headerShown: null }} />
+        <Stack.Screen name='PlayerDetails' options={{ title: "Player Details" }} component={PlayerDetails} />
     </Stack.Navigator>
 }
 

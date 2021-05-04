@@ -6,6 +6,8 @@ import { CommonActions } from "@react-navigation/native";
 import Login from './Login'
 import teamContext from '../context/team/teamContext';
 import SettingsTile from '../components/SettingsTile';
+import { COLORS, FONTS, SIZES } from '../config/constants';
+import Signup from './Signup';
 
 const Settings = ({ navigation }) => {
 
@@ -27,7 +29,7 @@ const Settings = ({ navigation }) => {
     }
 
     useEffect(() => {
-        getTeamByUserId(user.id)
+        getTeamByUserId(user?.id)
     }, [user])
 
     useLayoutEffect(() => {
@@ -40,10 +42,18 @@ const Settings = ({ navigation }) => {
 
     if (loading) return <LoadingScreen />
     if (!user && !loading) return <Login />
-    console.log(loading)
+    console.log(team)
     return (
         <View style={styles.container}>
-            <SettingsTile title='Team Players' onPress={() => navigation.navigate('TeamPlayers')} />
+            {user.team ? (<SettingsTile title='Team Players' onPress={() => navigation.navigate('TeamPlayers', { teamId: team.id })} />)
+                : (<TouchableOpacity style={{
+                    alignItems: 'center',
+                    ustifyContent: 'center', backgroundColor: COLORS.light, borderRadius: SIZES.radius * 3,
+                    marginVertical: SIZES.padding * 0.7, paddingHorizontal: SIZES.padding * 2, paddingVertical: SIZES.padding * 0.5
+                }} onPress={() => { navigation.navigate('AddTeam') }}>
+                    <Text style={{ ...FONTS.h3 }}>Add Team</Text>
+                </TouchableOpacity>)}
+
         </View>
     )
 }

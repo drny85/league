@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useLayoutEffect } from 'react'
 
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import AppForm from '../components/AppForm'
@@ -35,6 +35,14 @@ const Login = () => {
             );
         }
     }
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: user ? true : null,
+
+        })
+
+    }, [navigation])
     useEffect(() => {
         user && navigation.navigate('Settings')
     }, [user])
