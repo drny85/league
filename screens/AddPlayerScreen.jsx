@@ -58,10 +58,7 @@ const AddPlayerScreen = ({ route }) => {
                     try {
                         await db.collection('players').doc(playerId).update({ imageUrl: imageUri })
                         const teamPlayers = (await db.collection('teams').doc(team.id).get()).data().players
-                        const updatedTeamPlayers = [...teamPlayers]
-                        const playerToAdd = await db.collection('players').doc(playerId).get()
-                        updatedTeamPlayers.push({ id: playerToAdd.id, ...playerToAdd.data() })
-                        await db.collection('teams').doc(team.id).update({ players: updatedTeamPlayers })
+
 
                     } catch (error) {
                         console.log(error)

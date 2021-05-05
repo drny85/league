@@ -9,7 +9,7 @@ const PlayerList = ({ player, onPress }) => {
         <TouchableOpacity onPress={onPress} style={styles.container}>
             <View style={{ width: SIZES.width * 0.3 }}>
                 <SharedElement id={`player.${player.image}.image`}>
-                    <Image style={styles.image} source={{ uri: player.imageUrl }} />
+                    <Image style={styles.image} source={{ uri: player?.imageUrl }} />
                 </SharedElement>
 
             </View>

@@ -4,7 +4,7 @@ import { COLORS, FONTS, SIZES } from '../config/constants'
 
 const AppButton = ({ title, onPress, style, isDisable = false, textStyle }) => {
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.container, style]} disabled={isDisable}>
+        <TouchableOpacity onPress={onPress} style={[styles.container, { backgroundColor: isDisable ? COLORS.lightGray : COLORS.black }, style]} disabled={isDisable}>
             <Text style={{ color: COLORS.white, ...FONTS.h3, ...textStyle, textAlign: 'center' }}>{title}</Text>
         </TouchableOpacity>
     )

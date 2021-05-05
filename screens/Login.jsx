@@ -20,11 +20,13 @@ const signinSchema = Yup.object().shape({
 const Login = () => {
 
     const navigation = useNavigation()
-    const { user, login } = useContext(authContext)
+    const { user, login, setUser } = useContext(authContext)
 
     const handleLogin = async ({ email, password }) => {
         try {
             const data = await login(email, password);
+            await setUser(data.user.uid)
+
         } catch (error) {
             console.log('ER', error);
             Alert.alert(

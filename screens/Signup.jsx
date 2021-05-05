@@ -40,7 +40,7 @@ const Signup = ({ navigation }) => {
 
 
 
-            //navigation.navigate('Settings')
+            navigation.navigate('Settings')
         } catch (error) {
             console.log(error)
             Alert.alert(

@@ -21,3 +21,13 @@ export const GET_PLAYER = 'GET_PLAYER';
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const LOADING_PLAYERS = 'LOADING_PLAYERS';
 export const PLAYER_ERROR = 'PLAYER_ERROR';
+
+
+//games conts
+
+export const ADD_GAME = 'ADD_GAME'
+export const GET_GAME = 'GET_GAME'
+export const GET_GAMES = 'GET_GAMES'
+export const UPDATE_GAME = 'UPDATE_GAME'
+export const DELETE_GAME = 'DELETE_GAME'
+export const LOADING_GAME = 'LOADING_GAME'

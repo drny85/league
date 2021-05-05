@@ -3,6 +3,7 @@ import playerReducer from "./playerReducer"
 import PlayerContext from './playerContext'
 import { ADD_PLAYER, GET_PLAYER, GET_PLAYERS, PLAYER_ERROR, LOADING_PLAYERS } from "../types"
 import { db } from "../../database"
+import playerContext from "./playerContext"
 
 
 
@@ -39,12 +40,15 @@ const PlayerState = (props) => {
     const getPlayersByTeamId = async teamId => {
         try {
             setLoading()
-
+            if (!teamId) return
             const result = await db.collection('players').where('teamId', '==', teamId).onSnapshot(
                 players => {
                     const playersData = []
                     players.forEach(player => {
-                        playersData.push({ id: player.id, ...player.data() })
+                        if (player.exists) {
+                            playersData.push({ id: player.id, ...player.data() })
+                        }
+
                     })
 
                     dispatch({ type: GET_PLAYERS, payload: playersData })

@@ -47,7 +47,7 @@ const AuthState = (props) => {
         try {
             const data = await db.collection("users").doc(userId).get();
 
-            dispatch({ type: SIGNUP, payload: data.data() });
+            dispatch({ type: SIGNUP, payload: { id: data.id, ...data.data() } });
         } catch (error) {
             console.log(error.message);
         }
@@ -69,6 +69,7 @@ const AuthState = (props) => {
 
     const getCurrentUser = async () => {
         try {
+
             authUnsubcribe = auth.onAuthStateChanged((user) => {
                 if (user) {
                     setUser(user.uid);

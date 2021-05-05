@@ -44,7 +44,7 @@ const TeamState = (props) => {
     const getTeamByUserId = async userId => {
         try {
             setLoading()
-
+            if (!userId) return
             const teamSub = await db.collection('teams').where('userId', '==', userId).onSnapshot(snap => {
                 let teamData = null
                 snap.forEach(team => {

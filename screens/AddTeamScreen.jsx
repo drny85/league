@@ -24,7 +24,7 @@ const AddTeamScreen = () => {
     const [name, setName] = useState('')
 
     const [image, pickImage] = usePicture()
-    const { user } = useContext(authContext)
+    const { user, setUser } = useContext(authContext)
     const { addTeam, error, clearError } = useContext(teamContext)
     const [addingPlayer, setAddingPlayer] = useState(false);
     const [players, setPlayers] = useState([])
@@ -63,6 +63,7 @@ const AddTeamScreen = () => {
                     try {
                         await db.collection('teams').doc(teamId).update({ imageUrl: imageUri })
                         await db.collection('users').doc(user.id).update({ team: teamId })
+                        await setUser(user.id)
                     } catch (error) {
                         console.log(error)
                     }
@@ -88,7 +89,6 @@ const AddTeamScreen = () => {
             }
 
             const teamId = await addTeam({ name: team.name, userId: user.id })
-            console.log('ID', teamId)
             if (!teamId) {
                 Alert.alert('Error', 'Team was not added', [{ text: 'Ok', style: 'cancel' }])
                 return

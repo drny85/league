@@ -1,15 +1,16 @@
 import React, { useContext, useEffect } from 'react'
 import { FlatList, Keyboard, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import TeamCard from '../components/TeamCard'
-import { FONTS } from '../config/constants'
+import { FONTS, SIZES } from '../config/constants'
 import authContext from '../context/auth/authContext'
 import playerContext from '../context/players/playerContext'
 import teamContext from '../context/team/teamContext'
+import LoadingScreen from './LoadingScreen'
 
 export default function Home({ navigation }) {
 
     const { players, getPlayersByTeamId } = useContext(playerContext)
-    const { user } = useContext(authContext)
+    const { user, loading } = useContext(authContext)
     const { team, getTeamByUserId, getTeams, teams } = useContext(teamContext)
 
     useEffect(() => {
@@ -30,9 +31,11 @@ export default function Home({ navigation }) {
     }
 
 
+    if (loading) return <LoadingScreen />
+
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList data={teams} keyExtractor={item => item.id} renderItem={({ item }) => <TeamCard key={item.id} team={item} onPress={() => navigation.navigate('TeamDetails', { teamId: team?.id })} />} />
+            <FlatList contentContainerStyle={{ width: SIZES.width }} data={teams} keyExtractor={item => item.id} renderItem={({ item }) => <TeamCard key={item.id} team={item} onPress={() => navigation.navigate('TeamDetails', { teamId: item.id })} />} />
 
         </SafeAreaView>
     )

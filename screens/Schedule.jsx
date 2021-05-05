@@ -13,12 +13,14 @@ import AppButton from '../components/AppButton'
 import { db } from '../database'
 import { useContext } from 'react/cjs/react.development'
 import teamContext from '../context/team/teamContext'
+import gameContext from '../context/games/gameContext'
 
 const Schedule = ({ navigation }) => {
 
     const [past, setPast] = useState(false)
     const [show, setShow] = useState(false)
     const { teams, getTeams } = useContext(teamContext)
+    const { games, getGames } = useContext(gameContext)
     // const [teams, setTeams] = useState([])
     const [date, setDate] = useState(new Date())
 
@@ -29,12 +31,15 @@ const Schedule = ({ navigation }) => {
 
     useEffect(() => {
         getTeams()
+        getGames()
+
     }, [])
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
+
     };
 
     const [awayTeam, setAwayTeam] = useState('')
@@ -62,7 +67,7 @@ const Schedule = ({ navigation }) => {
         try {
             if (awayTeam !== '' && homeTeam !== '') {
                 await db.collection('games').add({
-                    date: date,
+                    date: date.toISOString(),
                     location: 'Moshulu',
                     home: teams.find(t => t.name === homeTeam),
                     away: teams.find(t => t.name === awayTeam),
@@ -74,7 +79,7 @@ const Schedule = ({ navigation }) => {
                 alert('Missing Info')
             }
             setShow(false)
-            console.log('DONE')
+
         } catch (error) {
             console.error(error)
         }
@@ -143,7 +148,7 @@ const Schedule = ({ navigation }) => {
                                         <DateTimePicker
                                             value={date}
                                             mode='date'
-                                            minimumDate={new Date()}
+
                                             maximumDate={new Date(2021, 12, 31)}
                                             onChange={onChange}
                                         />
@@ -189,7 +194,7 @@ const Schedule = ({ navigation }) => {
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Text style={{ ...FONTS.h4, textAlign: 'center', marginLeft: 'auto', flex: 1 }}>Schedule</Text>
                 <TouchableOpacity onPress={() => setShow(true)}>
-                    <Feather name="plus" size={24} color="black" style={{ marginRight: 5, }} />
+                    <Feather name="plus" size={24} color="black" style={{ marginRight: 8, }} />
                 </TouchableOpacity>
 
 
@@ -206,7 +211,7 @@ const Schedule = ({ navigation }) => {
 
             {pickTeams()}
 
-            <FlatList data={games.sort((a, b) => a.date > b.date ? 1 : -1)} keyExtractor={item => item.id.toString()} renderItem={({ item }) => <ScheduleCard game={item} onPress={() => navigation.navigate('GameDetails', { game: item })} />} />
+            <FlatList data={games.sort((a, b) => a.date > b.date ? 1 : -1)} keyExtractor={item => item.id.toString()} renderItem={({ item }) => <ScheduleCard game={item} onPress={() => navigation.navigate('GameDetails', { gameId: item.id })} />} />
         </View>
     )
 }

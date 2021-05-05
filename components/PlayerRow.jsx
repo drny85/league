@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native'
+import { SharedElement } from 'react-navigation-shared-element'
 import { COLORS, FONTS, SIZES } from '../config/constants'
 
 
@@ -11,13 +12,23 @@ const PlayerRow = ({ player, index, onPress }) => {
                 <Text>{index + 1}</Text>
             </View>
             <View style={{ width: '30%', height: 80 }}>
-                <Image source={{ uri: player.imageUrl ? player.imageUrl : null }} style={styles.image} />
+
+                {player.imageUrl !== '' && (
+                    <SharedElement id={`player.${player.imageUrl}.image`}>
+                        <Image source={{ uri: player.imageUrl }} style={styles.image} />
+                    </SharedElement>
+                )}
+
             </View>
             <View style={{ flex: 1, padding: SIZES.padding * 0.3, width: '70%' }}>
-                <Text style={{ textAlign: 'center', ...FONTS.h4 }} >{player.fullName}</Text>
+                <SharedElement id={`player.${player.fullName}.name`}>
+                    <Text style={{ textAlign: 'center', ...FONTS.h4 }} >{player.fullName}</Text>
+                </SharedElement>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10 }}>
-                    <Text style={{ ...FONTS.h4 }}>Pos: <Text style={{ ...FONTS.body3 }}>{player.position}</Text></Text>
-                    <Text style={{ ...FONTS.h4 }}>Jersey: <Text style={{ ...FONTS.body3 }}> {player.number}</Text></Text>
+                    <SharedElement id={`player.${player.position}.position`}>
+                        <Text style={{ ...FONTS.h4 }}>Pos: <Text style={{ ...FONTS.body3 }}>{player.position}</Text></Text>
+                        <Text style={{ ...FONTS.h4 }}>Jersey: <Text style={{ ...FONTS.body3 }}> {player.number}</Text></Text>
+                    </SharedElement>
                 </View>
 
             </View>

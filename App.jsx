@@ -9,6 +9,7 @@ import AuthState from './context/auth/authState';
 import authContext from './context/auth/authContext';
 import TeamState from './context/team/teamState';
 import PlayerState from './context/players/playerState';
+import GameState from './context/games/gameState';
 
 const loadFonts = async () => {
 	return await Font.loadAsync({
@@ -40,9 +41,11 @@ const App = () => {
 	return (
 		<TeamState>
 			<PlayerState>
-				<NavigationContainer>
-					<BottomTabs />
-				</NavigationContainer>
+				<GameState>
+					<NavigationContainer>
+						<BottomTabs />
+					</NavigationContainer>
+				</GameState>
 			</PlayerState>
 		</TeamState>
 	);
