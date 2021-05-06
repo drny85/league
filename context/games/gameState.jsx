@@ -21,6 +21,7 @@ const GameState = ({ children }) => {
 
     const addGame = async (gameData) => {
         try {
+
             await db.collection('games').add(gameData)
         } catch (error) {
             console.log(error)
@@ -55,6 +56,8 @@ const GameState = ({ children }) => {
         }
     }
 
+    const getPastGames = () => dispatch({ type: 'PAST_GAMES' })
+
     const updateGame = async (gameData) => {
         try {
             await db.collection('games').doc(gameData.id).set(gameData)
@@ -75,6 +78,7 @@ const GameState = ({ children }) => {
         getGameById,
         getGames,
         updateGame,
+        getPastGames,
     }}>
         {children}
     </GameContext.Provider>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Modal, SafeAreaView } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import ScheduleCard from '../components/ScheduleCard'
 import { COLORS, FONTS, SIZES } from '../config/constants'
@@ -72,6 +72,7 @@ const Schedule = ({ navigation }) => {
                     home: teams.find(t => t.name === homeTeam),
                     away: teams.find(t => t.name === awayTeam),
                     won: null,
+                    completed: false,
                     teams: [teams.find(t => t.name === homeTeam), teams.find(t => t.name === awayTeam)]
                 })
 
@@ -191,27 +192,30 @@ const Schedule = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={{ ...FONTS.h4, textAlign: 'center', marginLeft: 'auto', flex: 1 }}>Schedule</Text>
-                <TouchableOpacity onPress={() => setShow(true)}>
-                    <Feather name="plus" size={24} color="black" style={{ marginRight: 8, }} />
-                </TouchableOpacity>
+            <View style={{ position: 'absolute', top: SIZES.statusBarHeight, left: 0, right: 0 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 24 }}>
+                    <Text style={{ ...FONTS.h4, textAlign: 'center', marginLeft: 'auto', flex: 1 }}>Schedule</Text>
+                    <TouchableOpacity onPress={() => setShow(true)}>
+                        <Feather name="plus" size={26} color="black" style={{ marginRight: 10, }} />
+                    </TouchableOpacity>
 
 
-            </View>
-            <View style={{ height: 40, width: SIZES.width, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, }}>
-                <TouchableOpacity disabled={!past} style={[styles.tab, { backgroundColor: !past ? COLORS.lightGray : COLORS.primary }]} onPress={() => setPast(p => !p)}>
-                    <Text style={!past ? { ...FONTS.h4 } : { ...FONTS.body3 }}>Upcoming</Text>
-                </TouchableOpacity>
-                <TouchableOpacity disabled={past} style={[styles.tab2, { backgroundColor: past ? COLORS.lightGray : COLORS.primary }]} onPress={() => setPast(p => !p)} >
-                    <Text style={past ? { ...FONTS.h4 } : { ...FONTS.body3 }}>Past Games</Text>
-                </TouchableOpacity>
+                </View>
+                <View style={{ height: 40, width: SIZES.width, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, }}>
+                    <TouchableOpacity disabled={!past} style={[styles.tab, { backgroundColor: !past ? COLORS.lightGray : COLORS.primary }]} onPress={() => setPast(p => !p)}>
+                        <Text style={!past ? { ...FONTS.h4 } : { ...FONTS.body3 }}>Upcoming</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity disabled={past} style={[styles.tab2, { backgroundColor: past ? COLORS.lightGray : COLORS.primary }]} onPress={() => setPast(p => !p)} >
+                        <Text style={past ? { ...FONTS.h4 } : { ...FONTS.body3 }}>Past Games</Text>
+                    </TouchableOpacity>
 
+                </View>
             </View>
 
             {pickTeams()}
-
-            <FlatList data={games.sort((a, b) => a.date > b.date ? 1 : -1)} keyExtractor={item => item.id.toString()} renderItem={({ item }) => <ScheduleCard game={item} onPress={() => navigation.navigate('GameDetails', { gameId: item.id })} />} />
+            <View style={{ marginTop: SIZES.statusBarHeight + 80, justifyContent: 'center', }}>
+                <FlatList data={past ? games.sort((a, b) => a.date > b.date ? 1 : -1).filter(g => g.completed === true) : games.sort((a, b) => a.date > b.date ? 1 : -1).filter(g => g.won === null)} keyExtractor={item => item.id.toString()} renderItem={({ item }) => <ScheduleCard game={item} onPress={() => navigation.navigate('GameDetails', { gameId: item.id })} />} />
+            </View>
         </View>
     )
 }
@@ -221,8 +225,7 @@ export default Schedule
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: SIZES.statusBarHeight,
-
+        alignItems: 'center'
 
     },
     tab: {

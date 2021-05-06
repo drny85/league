@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View, Image, Modal, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native'
 import { useContext, useEffect } from 'react/cjs/react.development'
 import { COLORS, FONTS, SIZES } from '../config/constants'
@@ -17,7 +17,7 @@ import AppButton from '../components/AppButton'
 
 const GameDetails = ({ route, navigation }) => {
     const { gameId } = route.params
-    const inningsRef = useRef()
+
     const { game, getGameById, loadingGame, updateGame } = useContext(gameContext)
     const [editingGame, setEditingGame] = useState(false)
 
@@ -38,17 +38,41 @@ const GameDetails = ({ route, navigation }) => {
             return
         }
 
-        const updatedGame = { ...game }
+        try {
+            const updatedGame = { ...game }
 
-        updatedGame.winner = { winner }
-        updatedGame.results = results
-        updatedGame.won = winner
-        updatedGame.inningsPlayed = innings
+            updatedGame.winner = { id: game?.away.name === winner ? game?.away.id : game?.home.id, name: winner }
+            updatedGame.results = results
+            updatedGame.won = winner
+            updatedGame.completed = true
+            updatedGame.inningsPlayed = innings
+            updatedGame.loserId = game?.away.name !== winner ? game?.away.id : game?.home.id
+            updatedGame.winnerId = game?.away.name === winner ? game?.away.id : game?.home.id
 
 
-        const submitted = await updateGame(updatedGame)
-        if (!submitted) return
+
+            const submitted = await updateGame(updatedGame)
+            if (!submitted) return
+            resetAllState()
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+
+    const resetAllState = () => {
+
+        setWinner('')
+        setInnings('')
+        setRuns({ away: '', home: '' })
+        setResults({
+            winner: null,
+            runs: { [game?.away.name]: null, [game?.home.name]: null },
+            innings: null
+        })
         setEditingGame(false)
+
     }
 
     const handleResultsPreview = () => {
@@ -115,7 +139,7 @@ const GameDetails = ({ route, navigation }) => {
                     <View style={{ marginTop: SIZES.padding, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <MiniSection title='Innings Played'>
 
-                            <TextInput ref={inningsRef} maxLength={2} style={{ paddingHorizontal: 12, borderBottomColor: COLORS.lightGray, borderBottomWidth: 0.5, paddingVertical: 10, ...FONTS.body4, }} placeholder='Innings' value={innings} onChangeText={text => setInnings(text)} />
+                            <TextInput maxLength={2} style={{ paddingHorizontal: 12, borderBottomColor: COLORS.lightGray, borderBottomWidth: 0.5, paddingVertical: 10, ...FONTS.body4, }} placeholder='Innings' value={innings} onChangeText={text => setInnings(text)} />
 
                         </MiniSection>
 
@@ -127,11 +151,11 @@ const GameDetails = ({ route, navigation }) => {
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: '100%' }}>
                                 <View>
                                     <Text style={{ ...FONTS.h3, marginRight: 10, }}>{game?.away.name}</Text>
-                                    <TextInput ref={inningsRef} maxLength={2} style={{ textAlign: 'center', paddingHorizontal: 12, borderBottomColor: COLORS.lightGray, borderBottomWidth: 0.5, paddingVertical: 5, ...FONTS.body4, }} placeholder='Runs' value={runs.away} onChangeText={text => setRuns({ ...runs, away: text })} />
+                                    <TextInput maxLength={2} style={{ textAlign: 'center', paddingHorizontal: 12, borderBottomColor: COLORS.lightGray, borderBottomWidth: 0.5, paddingVertical: 5, ...FONTS.body4, }} placeholder='Runs' value={runs.away} onChangeText={text => setRuns({ ...runs, away: text })} />
                                 </View>
                                 <View>
                                     <Text style={{ ...FONTS.h3, marginRight: 10, }}>{game?.home.name}</Text>
-                                    <TextInput ref={inningsRef} maxLength={2} style={{ textAlign: 'center', paddingHorizontal: 12, borderBottomColor: COLORS.lightGray, borderBottomWidth: 0.5, paddingVertical: 5, ...FONTS.body4, }} placeholder='Runs' value={runs.home} onChangeText={text => setRuns({ ...runs, home: text })} />
+                                    <TextInput maxLength={2} style={{ textAlign: 'center', paddingHorizontal: 12, borderBottomColor: COLORS.lightGray, borderBottomWidth: 0.5, paddingVertical: 5, ...FONTS.body4, }} placeholder='Runs' value={runs.home} onChangeText={text => setRuns({ ...runs, home: text })} />
                                 </View>
 
                             </View>

@@ -33,7 +33,7 @@ const TeamDetails = ({ route, navigation }) => {
         return (
             <View style={styles.scheduleView}>
                 <Text style={styles.title}>Upcoming Games</Text>
-                <FlatList contentContainerStyle={{ width: SIZES.width }} data={games.filter(g => g.home.id === teamId || g.away.id === teamId)} keyExtractor={item => item.id.toString()} renderItem={({ item, index }) => <ScheduleCard game={item} onPress={() => navigation.navigate('GameDetails', { gameId: item.id })} />} />
+                <FlatList contentContainerStyle={{ width: SIZES.width }} data={games.filter(g => g.home.id === teamId || g.away.id === teamId).filter(g => g.won === null)} keyExtractor={item => item.id.toString()} renderItem={({ item, index }) => <ScheduleCard game={item} onPress={() => navigation.navigate('GameDetails', { gameId: item.id })} />} />
 
             </View>
         )
