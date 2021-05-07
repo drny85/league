@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Iconb, TouchableOpacity, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Iconb, TouchableOpacity } from 'react-native'
 import { Feather } from "@expo/vector-icons";
 import { COLORS, SIZES } from '../config/constants';
 import { useNavigation } from '@react-navigation/native';
@@ -7,11 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 const BackArrow = ({ onPress, iconName, style }) => {
     const navigation = useNavigation()
     return (
-        <SafeAreaView>
-            <TouchableOpacity style={[styles.container, style]} onPress={onPress ? onPress : () => navigation.goBack()}>
-                <Feather name={iconName || 'x'} size={20} color={COLORS.black} />
-            </TouchableOpacity>
-        </SafeAreaView>
+
+        <TouchableOpacity style={[styles.container, style]} onPress={onPress ? onPress : () => navigation.goBack()}>
+            <Feather name={iconName || 'x'} size={20} color={COLORS.black} />
+        </TouchableOpacity>
+
     )
 }
 

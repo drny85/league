@@ -7,6 +7,7 @@ export const useStandings = () => {
 	const { teams, getTeams } = useContext(teamContext);
 	const [standings, setStandings] = useState([]);
 	const stand = {};
+	console.log('Standings');
 	const calculateStangings = () => {
 		teams.forEach((team) => {
 			stand[team.name] = { wins: 0, losses: 0 };

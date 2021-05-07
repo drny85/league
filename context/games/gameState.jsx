@@ -30,7 +30,7 @@ const GameState = ({ children }) => {
 
     const getGames = async () => {
         try {
-            await db.collection('games').onSnapshot(snap => {
+            await db.collection('games').orderBy('date', 'asc').onSnapshot(snap => {
                 const gamesData = []
                 snap.forEach(game => {
                     if (game.exists) {
