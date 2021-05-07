@@ -8,6 +8,7 @@ import Signup from '../screens/Signup';
 import TeamPlayers from '../screens/TeamPlayers';
 import AddPlayerScreen from '../screens/AddPlayerScreen';
 import AddTeamScreen from '../screens/AddTeamScreen';
+import PlayerDetails from '../screens/PlayerDetails';
 
 enableScreens()
 
@@ -24,6 +25,7 @@ const GameSettingsNav = () => {
         <Stack.Screen name='AddTeam' options={{ headerShown: null }} component={AddTeamScreen} />
         <Stack.Screen name='TeamPlayers' component={TeamPlayers} options={{ title: 'Team Players' }} />
         <Stack.Screen name='Settings' options={{ headerLeft: null, }} component={Settings} />
+        <Stack.Screen name='PlayerDetails' options={{ headerShown: null }} component={PlayerDetails} />
 
     </Stack.Navigator>
 }

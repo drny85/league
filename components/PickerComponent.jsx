@@ -2,6 +2,7 @@ import React from 'react'
 import { FlatList, Modal, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { COLORS, FONTS, SIZES } from '../config/constants'
 import { positions } from '../positions'
+import BackArrow from './BackArrow'
 import PickerItem from './PickerItem'
 
 const PickerComponent = ({ visible, setPicked, setVisible }) => {
@@ -13,8 +14,9 @@ const PickerComponent = ({ visible, setPicked, setVisible }) => {
     return (
         <SafeAreaView >
             <Modal animationType='slide' visible={visible}>
-                <View style={{ position: 'absolute', top: SIZES.statusBarHeight, alignItems: 'center', justifyContent: 'center', left: 0, right: 0 }}>
-                    <Text style={{ ...FONTS.h3 }}>Select A Position</Text>
+                <BackArrow style={{ marginBottom: 10 }} onPress={() => setVisible(false)} />
+                <View style={{ position: 'absolute', top: SIZES.statusBarHeight, alignItems: 'center', justifyContent: 'center', left: 0, right: 0, marginBottom: 10 }}>
+                    <Text style={{ ...FONTS.h3, }}>Select A Position</Text>
                 </View>
 
                 <View style={styles.container}>

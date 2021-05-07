@@ -10,7 +10,7 @@ enableScreens()
 const Stack = createSharedElementStackNavigator()
 
 const StandingNav = () => {
-    return <Stack.Navigator mode='modal' screenOptions={{ headerShown: null }}>
+    return <Stack.Navigator mode='modal' >
         <Stack.Screen name='Standings' component={Standings} />
     </Stack.Navigator>
 }

@@ -122,7 +122,7 @@ const AddPlayerScreen = ({ route }) => {
                             onSubmit={handlePlayer}
                             initialValues={{ fullName: '', position: '', number: '', team: team, imageUrl: '' }}
                         >
-                            <AppFormField autoCapitalize='words' textContentStyle='name' autoFocus={true} name='fullName' placeholder='Full Name' />
+                            <AppFormField autoCapitalize='words' textContentStyle='name' autoFocus={true} autoCorrect={false} name='fullName' placeholder='Full Name' />
                             <AppFormField onPress={() => setPicking(true)} style={styles.text} name='picked' value={picked} placeholder='Position' />
 
 

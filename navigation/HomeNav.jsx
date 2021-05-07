@@ -14,7 +14,7 @@ const Stack = createSharedElementStackNavigator()
 const HomeNavigation = () => {
     return <Stack.Navigator mode='modal'>
         <Stack.Screen name='Home' component={Home} options={{ title: "Teams" }} />
-        <Stack.Screen name='GameDetails' component={GameDetails} options={{ title: 'Game Details' }} />
+        <Stack.Screen name='GameDetails' component={GameDetails} options={{ headerShown: null }} />
         <Stack.Screen
             name='TeamDetails' component={TeamDetails} sharedElementsConfig={(route) => {
                 return [{ id: route.params.teamId }]

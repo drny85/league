@@ -96,10 +96,10 @@ const GameDetails = ({ route, navigation }) => {
     return (
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <BackArrow />
-            <View style={{ width: SIZES.width, height: SIZES.height * 0.3, flexDirection: 'row', }}>
+            <View style={{ width: SIZES.width, height: SIZES.height * 0.4, flexDirection: 'row', }}>
                 <Image style={{ height: '100%', width: '50%' }} source={{ uri: game?.away.imageUrl }} />
                 <Image style={{ height: '100%', width: '50%' }} source={{ uri: game?.home.imageUrl }} />
-                <View style={{ position: 'absolute', top: SIZES.height * 0.3 / 2, left: 0, right: 0 }}>
+                <View style={{ position: 'absolute', top: SIZES.height * 0.4 / 2, left: 0, right: 0 }}>
                     <LinearGradient colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.1)']}>
                         <Text style={{ ...FONTS.h2, textAlign: 'center', color: COLORS.white }}>{game?.away.name} Vs {game?.home.name}</Text>
                     </LinearGradient>

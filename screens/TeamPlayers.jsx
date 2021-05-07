@@ -34,7 +34,7 @@ const TeamPlayers = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <FlatList data={players} keyExtractor={item => item.id} renderItem={({ item, index }) => <PlayerRow player={item} index={index} />} />
+            <FlatList data={players} keyExtractor={item => item.id} renderItem={({ item, index }) => <PlayerRow player={item} index={index} onPress={() => navigation.navigate('PlayerDetails', { player: item })} />} />
 
 
         </View>

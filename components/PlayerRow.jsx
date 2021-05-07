@@ -24,16 +24,18 @@ const PlayerRow = ({ player, index, onPress }) => {
                 <SharedElement id={`player.${player.fullName}.name`}>
                     <Text style={{ textAlign: 'center', ...FONTS.h4 }} >{player.fullName}</Text>
                 </SharedElement>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10 }}>
-                    <SharedElement id={`player.${player.position}.position`}>
+                <SharedElement id={`player.${player.position}.position`}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10 }}>
+
                         <Text style={{ ...FONTS.h4 }}>Pos: <Text style={{ ...FONTS.body3 }}>{player.position}</Text></Text>
                         <Text style={{ ...FONTS.h4 }}>Jersey: <Text style={{ ...FONTS.body3 }}> {player.number}</Text></Text>
-                    </SharedElement>
-                </View>
+
+                    </View>
+                </SharedElement>
 
             </View>
 
-        </TouchableOpacity>
+        </TouchableOpacity >
     )
 }
 

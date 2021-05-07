@@ -52,7 +52,7 @@ const TeamState = (props) => {
                         teamData = { id: team.id, ...team.data() }
                     }
                 })
-                console.log('DATA', teamData)
+
                 dispatch({ type: GET_TEAM, payload: teamData })
             }
             )
