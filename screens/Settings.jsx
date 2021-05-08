@@ -35,11 +35,11 @@ const Settings = ({ navigation }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => user ? <TouchableOpacity onPress={confirmLogOut} style={{ marginRight: 10 }}><Text style={{ color: 'blue', opacity: 0.7 }}>Log Out</Text></TouchableOpacity> : null,
-            title: user.team && team ? team.name : null,
+            title: 'Settings'
         })
     }, [navigation, user])
 
-    console.log(loading)
+    console.log(user)
     if (loading) return <LoadingScreen />
     if (!user) return <Login />
 

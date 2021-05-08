@@ -4,6 +4,7 @@ import playerContext from '../context/players/playerContext'
 import teamContext from '../context/team/teamContext'
 import { AntDesign } from '@expo/vector-icons';
 import PlayerRow from '../components/PlayerRow';
+import { FONTS } from '../config/constants';
 
 const TeamPlayers = ({ route, navigation }) => {
     const { teamId } = route.params
@@ -34,7 +35,14 @@ const TeamPlayers = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <FlatList data={players} keyExtractor={item => item.id} renderItem={({ item, index }) => <PlayerRow player={item} index={index} onPress={() => navigation.navigate('PlayerDetails', { player: item })} />} />
+            {players.length > 0 ? (
+                <FlatList data={players} keyExtractor={item => item.id} renderItem={({ item, index }) => <PlayerRow player={item} index={index} onPress={() => navigation.navigate('PlayerDetails', { player: item })} />} />
+            ) : (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ ...FONTS.h3 }}>No Players</Text>
+                    </View>
+                )}
+
 
 
         </View>

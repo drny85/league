@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
         margin: 5,
         borderRadius: SIZES.radius,
         shadowColor: 'rgba(0,0,0,0.9)',
+
         elevation: 10,
         shadowOpacity: 0.3,
         shadowOffset: { width: 5, height: 6 },
@@ -46,6 +47,6 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         borderRadius: SIZES.radius,
         overflow: 'hidden',
-        opacity: 0.8,
+        opacity: 0.6,
     }
 })
