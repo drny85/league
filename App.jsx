@@ -11,6 +11,8 @@ import TeamState from './context/team/teamState';
 import PlayerState from './context/players/playerState';
 import GameState from './context/games/gameState';
 
+import { SOME_KEY } from '@env'
+
 const loadFonts = async () => {
 	return await Font.loadAsync({
 		montserrat: require('./assets/fonts/Montserrat-Regular.ttf'),
@@ -24,7 +26,7 @@ const loadFonts = async () => {
 };
 
 const App = () => {
-
+	console.log(SOME_KEY)
 	const [isReady, setIsReady] = useState(false);
 	const { getCurrentUser, authUnsubcribe } = useContext(authContext);
 
