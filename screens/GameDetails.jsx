@@ -78,13 +78,9 @@ const GameDetails = ({ route, navigation }) => {
     const handleResultsPreview = () => {
         setResults({ winner: game?.away.name === winner ? winner : game?.home.name, runs: { [game?.away.name]: runs.away, [game?.home.name]: runs.home }, innings: innings })
 
-
             < Alert.alert('Results', `Winner: ${winner} \n Innings: ${innings} \n ${game?.away.name}: ${runs.away} \n ${game?.home.name}: ${runs.home} \n`, [{ text: "Accept", onPress: submitResult }, { text: 'Cancel', style: 'cancel' }])
 
-
-
     }
-
 
     useEffect(() => {
         getGameById(gameId)
@@ -107,13 +103,18 @@ const GameDetails = ({ route, navigation }) => {
                 </View>
             </View>
             <View style={{ padding: SIZES.padding * 0.5, width: SIZES.width, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                <Text style={{ ...FONTS.body3 }}>Mark Game as Completed</Text>
+                <Text style={{ ...FONTS.body3 }}>{game?.completed ? 'Edit Game' : 'Mark Game as Completed'}</Text>
                 <Feather onPress={() => setEditingGame(true)} name="edit" size={24} color="black" />
 
             </View>
 
             <MiniSection title='Date & Time'>
                 <Text style={{ ...FONTS.body3, padding: 10, }}>{moment(game?.date).format('LLL')}</Text>
+
+            </MiniSection>
+
+            <MiniSection>
+
             </MiniSection>
 
             <Modal animationType='slide' visible={editingGame}>

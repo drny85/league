@@ -15,7 +15,7 @@ const PlayerRow = ({ player, index, onPress }) => {
 
                 {player.imageUrl !== '' && (
                     <SharedElement id={`player.${player.imageUrl}.image`}>
-                        <Image source={{ uri: player.imageUrl }} style={styles.image} />
+                        <Image source={player.imageUrl ? { uri: player.imageUrl } : require('../assets/player_avatar.png')} style={styles.image} />
                     </SharedElement>
                 )}
 

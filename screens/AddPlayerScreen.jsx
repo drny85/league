@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, ImageBackground, ScrollView, } from 'react-native'
+import { StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, ImageBackground, ScrollView, Alert, } from 'react-native'
 import { FONTS, SIZES, COLORS } from '../config/constants'
 import * as Yup from "yup";
 
@@ -57,7 +57,6 @@ const AddPlayerScreen = ({ route }) => {
 
                     try {
                         await db.collection('players').doc(playerId).update({ imageUrl: imageUri })
-                        const teamPlayers = (await db.collection('teams').doc(team.id).get()).data().players
 
 
                     } catch (error) {
@@ -71,6 +70,14 @@ const AddPlayerScreen = ({ route }) => {
         }
     };
 
+    const handlePlayerWithoutImage = async () => {
+        try {
+            //add player with no image
+        } catch (error) {
+
+        }
+    }
+
 
     const handlePlayer = async (values) => {
         try {
@@ -79,9 +86,14 @@ const AddPlayerScreen = ({ route }) => {
                 alert('Please type the full name')
                 return;
             }
-            if (!image) {
-                alert('Please setect an image')
-                return;
+            if (image === null) {
+                Alert.alert('Missing Image', 'Do you want to add a phone for this player?', [{ onPress: () => setImageUrl(null), text: 'Yes' }, {
+                    text: 'No', style: 'cancel', onPress: () => {
+                        setImageUrl(false)
+                        return;
+                    }
+                }])
+
             }
             if (!picked) {
                 alert('Please picked a position')
